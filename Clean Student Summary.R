@@ -8,6 +8,12 @@ sacred.loc <- "C:/Dropbox (UP Education Network)/UP-Data Evaluation/Sacred Data"
 
 setwd(sacred.loc)
 
+# Expects data to come in two files for ela and two files for math,
+# one for for K-5 and one for 6-8.
+# This may need editing if ANet changes their export format.
+
+ela
+
 # Note -- change this for A3. We might want to append from ANet website data
 ela  <- read.csv("Anet/FY15/Student Summary/InterimScores_ELA_A1A2_AllGrades.csv")
 math <- read.csv("Anet/FY15/Student Summary/InterimScores_Math_A1A2_AllGrades.csv")
