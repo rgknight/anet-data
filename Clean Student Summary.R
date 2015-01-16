@@ -52,6 +52,20 @@ math2 <- remove_pre(math, "Math.")
 
 all <- rbind(ela2, math2)
 
+# Check student IDs
+stopifnot(sum(duplicated(sasid.link$SASID))==0)
+
+need.sasid <- all[!(all$Student.ANET.ID %in% sasid.link$Student.ANET.ID), ]
+
+sasid.link <- sasid.link %>% rename(sasid2 = SASID) %>%
+  select(Student.ANET.ID, sasid2)
+
+all <- left_join(all, sasid.link, by = "Student.ANET.ID")
+
+all$SASID <- with(all, ifelse(is.na(sasid2), SASID, sasid2) )
+
+all <- select(all, -sasid2)
+
 # Reshape to long. First, gather to super-long, then spread the points-possible points
 
 a1.colnum <- grep("A1.Raw.Score", colnames(all))
@@ -71,9 +85,8 @@ data <- data %>%
 
 hist(data$perc)
 
-# Check student IDs
-need.sasid <- all[!(all$SASID %in% sasid.link$SASID), ]
+write.csv(data, "ANet Student Summary.csv", row.names = F, na = "")
+
+nrow(need.sasid) # number of students who need SASID link
 
 write.csv(need.sasid, "Need SASID.csv", row.names = F, na = "")
-
-write.csv(data, "ANet Student Summary.csv", row.names = F, na = "")
