@@ -74,8 +74,6 @@ hist(data$perc)
 # Check student IDs
 need.sasid <- all[!(all$SASID %in% sasid.link$SASID), ]
 
-write.csv(need.sasid, "Need SASID.csv", row.names = F)
+write.csv(need.sasid, "Need SASID.csv", row.names = F, na = "")
 
-write.csv(data, "ANet Student Summary.csv", row.names = F)
-
-# test a change
+write.csv(data, "ANet Student Summary.csv", row.names = F, na = "")
