@@ -14,9 +14,9 @@ comp.group <- comp.group[!is.na(comp.group$Long.Code), ]
 names  <- read.csv(paste(sacred,"Crosswalks and Groups/ANet Name Matching.csv", sep="/"))
 shortnames <- read.csv(paste(sacred,"Crosswalks and Groups/Short Common School Names.csv", sep="/"))
 
-df <- df[df$grade > 2, ]
+# df <- df[df$grade > 2, ]
 
-unpo <- c(1490049, 1490090, 4800405, 35050405)
+unpo <- c(1490049, 1490090, 4800405, 35050405, 35016)
 # 1490049 - UP Academy Oliver
 # 1490090 - UP Academy Leonard
 # 4800405 - UP Academy

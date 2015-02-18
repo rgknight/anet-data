@@ -13,7 +13,7 @@ anet <- read.csv("ANet and MCAS merged.csv")
 
 
 # Filter out lower grades from ANet and schools that don't have ANet
-df <- df %>% filter(grade > 2, State.ID %in% anet$State.ID) %>% select(-gspan)
+df <- df %>% filter(State.ID %in% anet$State.ID) %>% select(-gspan)
 
 df$grade <- as.character(df$grade)
 
