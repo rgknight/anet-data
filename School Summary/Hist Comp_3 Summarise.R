@@ -11,7 +11,7 @@ df <- read.csv("Historic ANet and MCAS.csv")
 
 
 # Filter out lower grades from ANet and schools that don't have ANet
-anet <- df %>% filter(interim != "MCAS")
+anet <- df %>% filter(test == "ANet")
 
 df <- df %>% filter(State.ID %in% anet$State.ID, !is.na(State.ID)) %>% select(-gspan)
 
@@ -111,11 +111,11 @@ runsubgroups <- function(df){
   by.s.i$grade <- "All"
   by.s.i <- rename(by.s.i, stu = tot.stu, perc = tot.perc, diff_to_network = tot.diff)
   
-  by.s.g$interim = ifelse(by.s.g$test == "MCAS", "MCAS 2014", "All")
+  by.s.g$interim = ifelse(by.s.g$test == "MCAS",ifelse(by.s.g$year=="FY14", "MCAS 2014", "MCAS 2013"), "All")
   by.s.g <- rename(by.s.g, stu = tot.stu, perc = tot.perc, diff_to_network = tot.diff)
   
   by.s$grade = "All"
-  by.s$interim = ifelse(by.s$test == "MCAS", "MCAS 2014", "All")
+  by.s$interim = ifelse(by.s$test == "MCAS", ifelse(by.s$year=="FY14", "MCAS 2014", "MCAS 2013"), "All")
   by.s <- rename(by.s, stu = tot.stu, perc = tot.perc, diff_to_network = tot.diff)
   
   by.s.i.g$grade <- as.character(by.s.i.g$grade)

@@ -72,7 +72,7 @@ m$Anet.School.Id <- NA
 m$diff_to_network <- NA
 m$comp <- NA
 m$gspan <- ifelse(m$grade<5, "Elem", "Middle")
-m$interim <- "MCAS"
+m$interim <- ifelse(m$year == "FY14", "MCAS 2014","MCAS 2013")
 m$test <- "MCAS"
   
 f$CPI <- NA
