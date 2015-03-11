@@ -7,10 +7,10 @@ modules <- "C:/Dropbox (UP)/UP-Data Evaluation/Modules/ANet School Level/Tables/
 
 setwd(modules)
 
-df <- read.csv("Historic ANet and MCAS.csv")
+df <- read.csv("ANet and MCAS.csv")
 
 
-# Filter out lower grades from ANet and schools that don't have ANet
+# Filter out schools that don't have ANet
 anet <- df %>% filter(test == "ANet")
 
 df <- df %>% filter(State.ID %in% anet$State.ID, !is.na(State.ID)) %>% select(-gspan)
@@ -137,7 +137,7 @@ runsubgroups <- function(df){
 
 out.df <- runsubgroups(df)
 
-write.csv(out.df, file = "Historic MCAS and ANet with Totals.csv", row.names = F, na = "")
+write.csv(out.df, file = "ANet and MCAS with Totals.csv", row.names = F, na = "")
    
 df.allyrs <- df[(df$State.ID %in% anet[anet$year == "FY15", "State.ID"]) & (df$State.ID %in% anet[anet$year == "FY14", "State.ID"]), ]
 
@@ -158,5 +158,5 @@ unpo <- c(1490049, 1490090, 4800405, 35050405, 350167, 99999)
 
 out <- out %>% filter( State.ID %in% unpo, !(State.ID == 1490049 & grade < 6))
 
-write.csv(out, "Historic UP and Comp Group with Averages.csv", row.names = F, na = "")
+write.csv(out, "UP and Comp Group with Averages.csv", row.names = F, na = "")
 

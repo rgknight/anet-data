@@ -9,8 +9,6 @@ options(stringsAsFactors=F)
 
 loadClean <- function(thispath, startFields){
 
-  thispath <- "C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/ANet/FY14/School Results"
-  startFields <- 2
 	# Get list of files & loops through loadin and cleaning
 	files <- list.files(path= paste(thispath, "Data", sep = "/"), pattern=".csv$")
 	f <- NULL
