@@ -5,19 +5,21 @@ require(dplyr)
 require(tidyr)
 options(stringsAsFactors=F)
 
+setwd("C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data")
 
-out.loc <- "C:/Dropbox (UP)/UP-Data Evaluation/Modules/ANet School Level"
-sacred.source <- "C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/Crosswalks and Groups"
-mcas.src <- "C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/MCAS/Merged/All School All Stu By Grade.csv"
+sacred.source <- "C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/"
+mcas.src <- "C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/"
 
-fy14 <- read.csv("C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/ANet/FY14/School Results/Anet All Schools All Grades.csv")
-fy15 <- read.csv("C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/ANet/FY15/School Results/Anet All Schools All Grades.csv")
+fy14 <- read.csv("ANet/FY14/School Results/Anet All Schools All Grades.csv")
+fy15 <- read.csv("ANet/FY15/School Results/Anet All Schools All Grades.csv")
 
+comp <- read.csv("Crosswalks and Groups/ANet Comp Group.csv")
+anet.names <- read.csv("Crosswalks and Groups/ANet Name Matching.csv")
+
+m <- read.csv("MCAS/Merged/All School All Stu By Grade.csv")
 
 
 # Merge in codes from anet
-anet.names <- read.csv(paste(sacred.source,"ANet Name Matching.csv", sep="/"))
-
 fy15 <- left_join(fy15,  anet.names %>%
                   filter(!is.na(Anet.Name) & !duplicated(Anet.School.Id) ) %>%
                   select(-Anet.Name, -Notes), by = c("Anet.School.Id" = "Anet.School.Id" ))
@@ -34,7 +36,6 @@ f <- rbind(fy15, fy14)
 f$gspan <- ifelse(f$grade<5, "Elem", "Middle")
 
 # Add comp group indicator
-comp <- read.csv(paste(sacred.source,"ANet Comp Group.csv", sep="/"))
 comp <- comp[!is.na(comp$Long.Code),]
 f$comp <- f$State.ID %in% comp$Long.Code
 
@@ -46,8 +47,6 @@ table(f[is.na(f$State.ID), "school"])
 f <- f %>% filter(!is.na(State.ID))
 
 # Prepare  MCAS Data
-
-m <- read.csv(mcas.src, na.strings = "")
 m <- m[m$Year %in% c(2014, 2013), ]
 m$year <-with(m, ifelse( Year == 2014, "FY14", "FY13"))
 
@@ -84,8 +83,7 @@ anet.append <- rbind(f, m)
 
 anet.append$comp <- anet.append$State.ID %in% comp$Long.Code
 
-write.csv(anet.append, file=paste(out.loc, "Tables/ANet and MCAS.csv", sep = "/"),
-          row.names=F, na="")
+write.csv(anet.append, "ANet/Tables/ANet and MCAS.csv", row.names=F, na="")
 
 
 # Schools who don't have codes:

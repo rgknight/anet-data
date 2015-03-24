@@ -3,9 +3,7 @@ options(stringsAsFactors=F)
 
 # Purpose: Calculate weighted averages & comp group averages.
 
-modules <- "C:/Dropbox (UP)/UP-Data Evaluation/Modules/ANet School Level/Tables/"
-
-setwd(modules)
+setwd("C:/Dropbox (UP)/UP-Data Evaluation/Sacred Data/ANet/Tables")
 
 df <- read.csv("ANet and MCAS.csv")
 
@@ -58,7 +56,7 @@ runsubgroups <- function(df){
   
   # By school by interim
   by.s.i <- df %>%
-    filter(test == "ANet") %>%
+    filter(test == "ANet", grade > 2) %>%
     group_by(State.ID, subject, interim, year) %>%
     summarize(tot.stu = sum(stu, na.rm = T) ,
               tot.perc = sum( perc*stu / tot.stu, na.rm = T ),
@@ -90,6 +88,7 @@ runsubgroups <- function(df){
   # By school
   by.s <- df %>%
     group_by(State.ID, subject, test, year) %>%
+    filter(grade > 2) %>%
     summarize(tot.stu = sum(stu, na.rm = T) ,
               tot.perc = sum( perc*stu / tot.stu, na.rm = T ),
               tot.diff = sum( diff_to_network*stu / tot.stu, na.rm = T ))
