@@ -23,7 +23,9 @@ loadClean <- function(thispath, startFields){
 	  print(i)
 	  
 	  # Reshape to long
-	  X <- X %>% select(-State) 
+	  if("State" %in% names(X) ){
+	    X <- X %>% select(-State)
+	  }
 	  long <- X %>% gather(measure, value, startFields:ncol(X))
 
 	  # Get meta-data from the file name  
